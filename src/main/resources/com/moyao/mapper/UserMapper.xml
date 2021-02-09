@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.moyao.mapper.UserMapper">
+  <resultMap id="BaseResultMap" type="com.moyao.entity.User">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="external_user_id" jdbcType="VARCHAR" property="externalUserId" />
+    <result column="type" jdbcType="TINYINT" property="type" />
+    <result column="mobile" jdbcType="VARCHAR" property="mobile" />
+    <result column="username" jdbcType="VARCHAR" property="username" />
+    <result column="user_nick" jdbcType="VARCHAR" property="userNick" />
+    <result column="dx_created" jdbcType="TIMESTAMP" property="dxCreated" />
+    <result column="dx_modified" jdbcType="TIMESTAMP" property="dxModified" />
+    <result column="main_user_id" jdbcType="BIGINT" property="mainUserId" />
+    <result column="origin_instance_id" jdbcType="BIGINT" property="originInstanceId" />
+  </resultMap>
+  <delete id="delete" parameterType="java.lang.Long">
+    delete from users
+     where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteList" parameterType="java.util.List">
+    delete from users
+    where id in
+    <foreach close=")" collection="idList" item="id" open="(" separator=",">
+      #{id,jdbcType=BIGINT}
+    </foreach>
+  </delete>
+  <insert id="insert" parameterType="com.moyao.entity.User">
+    insert into users (id, external_user_id, type, mobile, username, user_nick, dx_created, 
+      dx_modified, main_user_id, origin_instance_id) values
+    (#{id,jdbcType=BIGINT}, #{externalUserId,jdbcType=VARCHAR}, #{type,jdbcType=TINYINT}, 
+      #{mobile,jdbcType=VARCHAR}, #{username,jdbcType=VARCHAR}, #{userNick,jdbcType=VARCHAR}, 
+      #{dxCreated,jdbcType=TIMESTAMP}, #{dxModified,jdbcType=TIMESTAMP}, #{mainUserId,jdbcType=BIGINT}, 
+      #{originInstanceId,jdbcType=BIGINT})
+  </insert>
+  <insert id="insertList" parameterType="java.util.List">
+    insert into users (id, external_user_id, type, mobile, username, user_nick, dx_created, 
+      dx_modified, main_user_id, origin_instance_id) values
+    <foreach collection="records" item="record" separator=",">
+      (#{record.id,jdbcType=BIGINT}, #{record.externalUserId,jdbcType=VARCHAR}, #{record.type,jdbcType=TINYINT}, 
+        #{record.mobile,jdbcType=VARCHAR}, #{record.username,jdbcType=VARCHAR}, #{record.userNick,jdbcType=VARCHAR}, 
+        #{record.dxCreated,jdbcType=TIMESTAMP}, #{record.dxModified,jdbcType=TIMESTAMP}, 
+        #{record.mainUserId,jdbcType=BIGINT}, #{record.originInstanceId,jdbcType=BIGINT}
+        )
+    </foreach>
+  </insert>
+  <update id="update" parameterType="com.moyao.entity.User">
+    update users
+    set 
+    <if test="externalUserId !=null">
+      external_user_id = #{externalUserId,jdbcType=VARCHAR},
+    </if>
+    <if test="type !=null">
+        type = #{type,jdbcType=TINYINT},
+    </if>
+    <if test="mobile !=null">
+        mobile = #{mobile,jdbcType=VARCHAR},
+    </if>
+    <if test="username !=null">
+        username = #{username,jdbcType=VARCHAR},
+    </if>
+    <if test="userNick !=null">
+        user_nick = #{userNick,jdbcType=VARCHAR},
+    </if>
+    <if test="dxCreated !=null">
+        dx_created = #{dxCreated,jdbcType=TIMESTAMP},
+    </if>
+    <if test="mainUserId !=null">
+        main_user_id = #{mainUserId,jdbcType=BIGINT},
+    </if>
+    <if test="originInstanceId !=null">
+        origin_instance_id = #{originInstanceId,jdbcType=BIGINT},
+    </if>
+      dx_modified = #{dxModified,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <select id="findById" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select id, external_user_id, type, mobile, username, user_nick, dx_created, dx_modified, 
+    main_user_id, origin_instance_id
+    from users
+     where id = #{id,jdbcType=BIGINT}
+  </select>
+  <select id="findByIdList" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select id, external_user_id, type, mobile, username, user_nick, dx_created, dx_modified, 
+    main_user_id, origin_instance_id
+    from users
+    where id in
+    <foreach close=")" collection="idList" item="id" open="(" separator=",">
+      #{id,jdbcType=BIGINT}
+    </foreach>
+  </select>
+</mapper>
