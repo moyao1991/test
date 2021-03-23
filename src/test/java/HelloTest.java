@@ -1,5 +1,6 @@
 import java.util.List;
 
+import org.apache.dubbo.config.annotation.DubboReference;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +11,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import com.moyao.DemoApplication;
 import com.moyao.dto.UserDto;
+import com.moyao.dubbo.HelloDubboService;
 import com.moyao.entity.User;
 import com.moyao.mapper.UserMapper;
 import com.moyao.service.UserService;
@@ -27,10 +29,19 @@ public class HelloTest {
     @Autowired
     private UserService userService;
 
+    @DubboReference
+    private HelloDubboService helloDubboService;
+
     @Test
     public void testWeb() {
         ResponseEntity<String> entity = testRestTemplate.getForEntity("/hello", String.class, 0);
         System.err.println(entity.getBody());
+    }
+
+    @Test
+    public void testDubbo(){
+        UserDto user = helloDubboService.findUser(47L);
+        System.err.println(user.getUsername());
     }
 
     @Test
