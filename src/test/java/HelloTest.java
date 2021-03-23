@@ -29,7 +29,7 @@ public class HelloTest {
     @Autowired
     private UserService userService;
 
-    @DubboReference
+    @DubboReference(url = "dubbo://10.11.0.211:20880")
     private HelloDubboService helloDubboService;
 
     @Test
