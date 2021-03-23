@@ -1,4 +1,4 @@
-package com.moyao;
+package com.moyao.web;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
