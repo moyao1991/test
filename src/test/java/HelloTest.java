@@ -61,5 +61,11 @@ public class HelloTest {
         UserDto user = userService.findUser(47L);
         System.err.println(user.getUsername());
     }
+
+    @Test
+    public void testCache() {
+        UserDto user = userService.findUserUseCache(47L);
+        System.err.println(user.getUsername());
+    }
 }
 
